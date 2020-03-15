@@ -10,6 +10,9 @@ gym = "*"
 atari-py = "*"
 numpy = "*"
 matplotlib = "*"
+torch = "*"
+torchvision = "*"
+opencv-python = "*"
 
 [requires]
 python_version = "3.7"
