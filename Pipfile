@@ -4,6 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pylint = "*"
 
 [packages]
 gym = "*"
@@ -13,6 +14,8 @@ matplotlib = "*"
 torch = "*"
 torchvision = "*"
 opencv-python = "*"
+gym-retro = "*"
+tensorflow = "==1.14"
 
 [requires]
 python_version = "3.7"
