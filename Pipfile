@@ -16,6 +16,7 @@ torchvision = "*"
 opencv-python = "*"
 gym-retro = "*"
 tensorflow = "==1.14"
+notebook = "*"
 
 [requires]
 python_version = "3.7"
