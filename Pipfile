@@ -15,7 +15,7 @@ torch = "*"
 torchvision = "*"
 opencv-python = "*"
 gym-retro = "*"
-tensorflow = "==1.14"
+tensorflow = "==1.15.2"
 notebook = "*"
 
 [requires]
