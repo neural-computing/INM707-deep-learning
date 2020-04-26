@@ -142,7 +142,6 @@ class MinSegmentTree(SegmentTree):
 
         return super(MinSegmentTree, self).reduce(start, end)
 
-
 class ReplayBuffer(object):
     def __init__(self, size):
         """Create Replay buffer.
@@ -159,8 +158,8 @@ class ReplayBuffer(object):
     def __len__(self):
         return len(self._storage)
 
-    def push(self, state, action, reward, next_state, done):
-        data = (state, action, reward, next_state, done)
+    def add(self, obs_t, action, reward, obs_tp1, done):
+        data = (obs_t, action, reward, obs_tp1, done)
 
         if self._next_idx >= len(self._storage):
             self._storage.append(data)
@@ -220,7 +219,7 @@ class PrioritizedReplayBuffer(ReplayBuffer):
         ReplayBuffer.__init__
         """
         super(PrioritizedReplayBuffer, self).__init__(size)
-        assert alpha > 0
+        assert alpha >= 0
         self._alpha = alpha
 
         it_capacity = 1
@@ -231,18 +230,19 @@ class PrioritizedReplayBuffer(ReplayBuffer):
         self._it_min = MinSegmentTree(it_capacity)
         self._max_priority = 1.0
 
-    def push(self, *args, **kwargs):
+    def add(self, *args, **kwargs):
         """See ReplayBuffer.store_effect"""
         idx = self._next_idx
-        super(PrioritizedReplayBuffer, self).push(*args, **kwargs)
+        super().add(*args, **kwargs)
         self._it_sum[idx] = self._max_priority ** self._alpha
         self._it_min[idx] = self._max_priority ** self._alpha
 
     def _sample_proportional(self, batch_size):
         res = []
-        for _ in range(batch_size):
-            # TODO(szymon): should we ensure no repeats?
-            mass = random.random() * self._it_sum.sum(0, len(self._storage) - 1)
+        p_total = self._it_sum.sum(0, len(self._storage) - 1)
+        every_range_len = p_total / batch_size
+        for i in range(batch_size):
+            mass = random.random() * every_range_len + i * every_range_len
             idx = self._it_sum.find_prefixsum_idx(mass)
             res.append(idx)
         return res
