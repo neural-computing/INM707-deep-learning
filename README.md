@@ -8,7 +8,7 @@ Models considered here are a Vanilla DQN using Replay Memory and MSE temporal di
 
 This project requires [OpenAI Baselines](https://github.com/openai/baselines). Follow installation steps in linked project - can skip installation of tensorflow as this is already included in the project dependencies.
 
-## boxing-dqn
+## Boxing-dqn
 
 This contains notebooks and dependencies for the two DQN models trained for the project report
 
